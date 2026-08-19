@@ -1,2 +1,10 @@
 node_modules
 npm-debug.log
+.git
+.gitignore
+README.md
+docker/
+terraform/
+k8s/
+.github/
+docs/
