@@ -1,0 +1,21 @@
+<mxfile host="app.diagrams.net"><diagram name="CI-CD"><mxGraphModel dx="1200" dy="700" grid="1" gridSize="10" page="1" pageWidth="1600" pageHeight="900"><root><mxCell id="0"/><mxCell id="1" parent="0"/>
+<mxCell id="a" value="Developer&#xa;git push main" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="30" y="250" width="140" height="70" as="geometry"/></mxCell>
+<mxCell id="b" value="GitHub Repository" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="210" y="250" width="150" height="70" as="geometry"/></mxCell>
+<mxCell id="c" value="GitHub Actions" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="400" y="250" width="150" height="70" as="geometry"/></mxCell>
+<mxCell id="d" value="AWS IAM Role&#xa;OIDC / STS" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="590" y="120" width="160" height="70" as="geometry"/></mxCell>
+<mxCell id="e" value="Docker Build&#xa;Tag = GITHUB_SHA" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="590" y="250" width="160" height="70" as="geometry"/></mxCell>
+<mxCell id="f" value="Amazon ECR" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="790" y="250" width="150" height="70" as="geometry"/></mxCell>
+<mxCell id="g" value="aws eks update-kubeconfig" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="590" y="390" width="180" height="70" as="geometry"/></mxCell>
+<mxCell id="h" value="kubectl set image" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="810" y="390" width="150" height="70" as="geometry"/></mxCell>
+<mxCell id="i" value="kubectl rollout status" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="1000" y="390" width="170" height="70" as="geometry"/></mxCell>
+<mxCell id="j" value="Amazon EKS&#xa;Pac-Man Deployment" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="1210" y="390" width="180" height="70" as="geometry"/></mxCell>
+<mxCell id="x1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="a" target="b"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="x2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="b" target="c"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="x3" value="OIDC" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="c" target="d"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="x4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="c" target="e"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="x5" value="docker push" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="e" target="f"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="x6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="c" target="g"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="x7" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="g" target="h"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="x8" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="h" target="i"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="x9" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;" edge="1" parent="1" source="i" target="j"><mxGeometry relative="1" as="geometry"/></mxCell>
+</root></mxGraphModel></diagram></mxfile>
