@@ -15,9 +15,11 @@ spec:
         app: pacman
 
     spec:
+      serviceAccountName: pacman
+
       containers:
         - name: pacman
-          image: 044014415398.dkr.ecr.eu-central-1.amazonaws.com/devops-pacman:be68b4e
+          image: 044014415398.dkr.ecr.eu-central-1.amazonaws.com/devops-pacman:1a03c26
 
           ports:
             - containerPort: 8080
@@ -40,9 +42,6 @@ spec:
 
             - name: CLOUD_PROVIDER
               value: "AWS"
-
-            - name: AWS_ZONE
-              value: "eu-central-1a"
 
             - name: POD_NAME
               valueFrom:

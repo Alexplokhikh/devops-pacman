@@ -6,6 +6,6 @@ npm-debug.log
 README.md
 docs/
 terraform/
-# will be added later, but not needed for the build:
 k8s/
+# will be added later, but not needed for the build:
 .github/
