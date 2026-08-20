@@ -1,10 +1,11 @@
 node_modules
 npm-debug.log
+# used to build/deploy/manage infrastructure, not to run Pac-Man:
 .git
 .gitignore
 README.md
-docker/
+docs/
 terraform/
+# will be added later, but not needed for the build:
 k8s/
 .github/
-docs/

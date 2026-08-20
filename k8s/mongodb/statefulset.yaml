@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  serviceName: mongo
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: mongo
+
+  template:
+    metadata:
+      labels:
+        app: mongo
+
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:3.4.24
+
+          ports:
+            - name: mongodb
+              containerPort: 27017
+
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-data
+
+      spec:
+        accessModes:
+          - ReadWriteOnce
+
+        storageClassName: auto-ebs-gp3
+
+        resources:
+          requests:
+            storage: 5Gi

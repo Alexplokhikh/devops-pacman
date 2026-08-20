@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pacman
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: pacman
+
+  template:
+    metadata:
+      labels:
+        app: pacman
+
+    spec:
+      containers:
+        - name: pacman
+          image: 044014415398.dkr.ecr.eu-central-1.amazonaws.com/devops-pacman:be68b4e
+
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: MONGO_SERVICE_HOST
+              value: "mongo"
+
+            - name: MONGO_DATABASE
+              value: "pacman"
+
+            - name: MY_MONGO_PORT
+              value: "27017"
+
+            - name: MONGO_USE_SSL
+              value: "false"
+
+            - name: MONGO_VALIDATE_SSL
+              value: "false"
+
+            - name: CLOUD_PROVIDER
+              value: "AWS"
+
+            - name: AWS_ZONE
+              value: "eu-central-1a"
+
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
