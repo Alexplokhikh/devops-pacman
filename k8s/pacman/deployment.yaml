@@ -19,7 +19,7 @@ spec:
 
       containers:
         - name: pacman
-          image: 044014415398.dkr.ecr.eu-central-1.amazonaws.com/devops-pacman:1a03c26
+          image: 044014415398.dkr.ecr.eu-central-1.amazonaws.com/devops-pacman:e5a6941
 
           ports:
             - containerPort: 8080
