@@ -25,6 +25,8 @@ A complete DevOps implementation of the classic Pac-Man application: **Dockerize
 - **Observability:** `kube-prometheus-stack` provides Prometheus, Grafana, kube-state-metrics, node-exporter and Alertmanager.
 - **Runtime cloud awareness:** the application displays AWS cloud, availability zone, Pod hostname and EKS node information.
 
+![Application running](docs/screenshots/running-application.png)
+
 ## Architecture
 
 ```mermaid
@@ -73,11 +75,15 @@ flowchart LR
     F --> G[Rolling rollout]
 ```
 
+![Application running](docs/screenshots/pacman-red-before.png)
+
 A practical end-to-end test changed the Pac-Man controls from **red to blue**, committed and pushed the change, and let the successful workflow build and deploy the new version. The high score remained after the application rollout, demonstrating separation of stateless application releases from persistent database state.
 
 ![Application after automated deployment](docs/screenshots/pacman-blue-deployment.png)
 
 ## Kubernetes & persistence proof
+
+![Application after automated deployment](docs/screenshots/persisted-highscores.png)
 
 Observed workload state included one MongoDB Pod and two Pac-Man replicas. MongoDB uses a StatefulSet and the PVC `mongo-data-mongo-0`, bound to a **5 GiB RWO** volume using the `auto-ebs-gp3` StorageClass.
 
@@ -158,22 +164,22 @@ Disk I/O, disk-space and network receive/transmit metrics are also available:
 
 ## Technology stack
 
-| Area | Technology |
-|---|---|
-| Cloud | AWS |
-| IaC | Terraform |
-| Containers | Docker |
-| Registry | Amazon ECR |
-| Orchestration | Kubernetes / Amazon EKS |
-| Application | Node.js / Express |
-| Database | MongoDB 3.4.x |
-| Persistence | Kubernetes PV/PVC + Amazon EBS gp3 |
-| CI/CD | GitHub Actions |
-| AWS authentication | GitHub OIDC → IAM role |
-| Monitoring | Prometheus + Grafana |
-| Metrics | kube-state-metrics + node-exporter |
-| Alerting stack | Alertmanager |
-| Package management | Helm |
+| Area               | Technology                                  |
+| ------------------ | ------------------------------------------- |
+| Cloud              | AWS                                         |
+| IaC                | Terraform                                   |
+| Containers         | Docker                                      |
+| Registry           | Amazon ECR                                  |
+| Orchestration      | Kubernetes / Amazon EKS                     |
+| Application        | Node.js / Express                           |
+| Database           | MongoDB 3.4.x                               |
+| Persistence        | Kubernetes PV/PVC + Amazon EBS gp3          |
+| CI/CD              | GitHub Actions                              |
+| AWS authentication | GitHub OIDC → IAM role                      |
+| Monitoring         | Prometheus + Grafana                        |
+| Metrics            | kube-state-metrics + node-exporter          |
+| Alerting stack     | Alertmanager                                |
+| Package management | Helm                                        |
 | Public entry point | Kubernetes LoadBalancer / AWS load balancer |
 
 ## Repository layout
@@ -256,24 +262,24 @@ db.userstats.find().pretty()
 
 ## Engineering evidence checklist
 
-| Capability | Evidence | Status |
-|---|---|:---:|
-| AWS infrastructure provisioned as code | Terraform-managed VPC/EKS/ECR/IAM resources | ✅ |
-| Containerized application | Docker image stored in ECR | ✅ |
-| Managed Kubernetes | Pac-Man + MongoDB running on EKS | ✅ |
-| Replicated application | Two Pac-Man Pods observed | ✅ |
-| Stateful database | MongoDB StatefulSet | ✅ |
-| Persistent storage | 5 GiB EBS gp3 PVC/PV bound | ✅ |
-| Self-healing | `mongo-0` recreated after deletion | ✅ |
-| Data durability | `alex` score 3070 survived recreation | ✅ |
-| Public application delivery | AWS-backed LoadBalancer service | ✅ |
-| Runtime cloud metadata | AWS / AZ / Pod / node shown in app | ✅ |
-| Secure CI/CD | GitHub Actions + AWS OIDC | ✅ |
-| Automated release | red → blue UI change deployed by push | ✅ |
-| Metrics collection | Prometheus stack running | ✅ |
-| Kubernetes dashboards | Grafana cluster + namespace metrics | ✅ |
-| Host telemetry | node-exporter CPU/memory/disk/network | ✅ |
-| Alerting component | Alertmanager running | ✅ |
+| Capability                             | Evidence                                    | Status |
+| -------------------------------------- | ------------------------------------------- | :----: |
+| AWS infrastructure provisioned as code | Terraform-managed VPC/EKS/ECR/IAM resources |   ✅   |
+| Containerized application              | Docker image stored in ECR                  |   ✅   |
+| Managed Kubernetes                     | Pac-Man + MongoDB running on EKS            |   ✅   |
+| Replicated application                 | Two Pac-Man Pods observed                   |   ✅   |
+| Stateful database                      | MongoDB StatefulSet                         |   ✅   |
+| Persistent storage                     | 5 GiB EBS gp3 PVC/PV bound                  |   ✅   |
+| Self-healing                           | `mongo-0` recreated after deletion          |   ✅   |
+| Data durability                        | `alex` score 3070 survived recreation       |   ✅   |
+| Public application delivery            | AWS-backed LoadBalancer service             |   ✅   |
+| Runtime cloud metadata                 | AWS / AZ / Pod / node shown in app          |   ✅   |
+| Secure CI/CD                           | GitHub Actions + AWS OIDC                   |   ✅   |
+| Automated release                      | red → blue UI change deployed by push       |   ✅   |
+| Metrics collection                     | Prometheus stack running                    |   ✅   |
+| Kubernetes dashboards                  | Grafana cluster + namespace metrics         |   ✅   |
+| Host telemetry                         | node-exporter CPU/memory/disk/network       |   ✅   |
+| Alerting component                     | Alertmanager running                        |   ✅   |
 
 ## Local development
 
@@ -290,6 +296,41 @@ npm start
 ```
 
 Then open `http://localhost:3000`.
+
+## Prerequisites
+
+Before deploying this project, make sure the following are available locally:
+
+- Git
+- Docker
+- AWS CLI v2
+- Terraform
+- kubectl
+- Helm
+- An AWS account with permissions to create/manage:
+  - VPC networking
+  - IAM roles and policies
+  - Amazon EKS
+  - Amazon ECR
+  - Elastic Load Balancers
+  - EBS volumes
+- AWS CLI configured for the target account and region
+- A GitHub repository containing this project
+- GitHub Actions enabled for the repository
+
+### AWS GitHub OIDC Provider
+
+This project expects the GitHub Actions OIDC provider to already exist in the AWS account.
+
+Provider URL: https://token.actions.githubusercontent.com
+
+Audience: sts.amazonaws.com
+
+verify with:
+
+```bash
+aws iam list-open-id-connect-providers
+```
 
 ## Cleanup
 
