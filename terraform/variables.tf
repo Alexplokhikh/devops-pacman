@@ -33,3 +33,33 @@ variable "ecr_repository_name" {
   type        = string
   default     = "devops-pacman"
 }
+
+variable "github_username" {
+  description = "GitHub repository owner username"
+  type        = string
+  default     = "Alexplokhikh"
+}
+
+variable "github_owner_id" {
+  description = "Immutable GitHub owner ID"
+  type        = string
+  default     = "126824464"
+}
+
+variable "github_repository_name" {
+  description = "GitHub repository name"
+  type        = string
+  default     = "devops-pacman"
+}
+
+variable "github_repository_id" {
+  description = "Immutable GitHub repository ID"
+  type        = string
+  default     = "1339455957"
+}
+
+variable "github_branch" {
+  description = "GitHub branch allowed to deploy"
+  type        = string
+  default     = "main"
+}
